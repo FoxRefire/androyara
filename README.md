@@ -1,47 +1,47 @@
 # YARA-X Android Sample
 
-このサンプルアプリは、YARA-X ライブラリを Android で使用する方法を示します。
+This sample app demonstrates how to use the YARA-X library on Android.
 
-## 前提条件
+## Prerequisites
 
-1. **JDK**: Java 17 以上で、`jlink` ツールを含む JDK が必要です（最小 JRE では不足）。
-   - `jlink` エラーが出る場合: `gradle.properties` の `org.gradle.java.home` を `jlink` 入りの JDK パスに設定してください。
+1. **JDK**: Java 17 or higher with the `jlink` tool included (minimal JRE is insufficient).
+   - If you get a `jlink` error: Set `org.gradle.java.home` in `gradle.properties` to the path of a JDK that includes `jlink`.
 
-2. **yara-x (サブモジュール)**: [FoxRefire/yara-x](https://github.com/FoxRefire/yara-x) を Git サブモジュールとして取得しています（プリビルド済み `jniLibs` 付き）。
+2. **yara-x (submodule)**: [FoxRefire/yara-x](https://github.com/FoxRefire/yara-x) is included as a Git submodule (with prebuilt `jniLibs`).
 
-   初回クローン後はサブモジュールの初期化が必要です:
+   Initialize the submodule after the first clone:
 
    ```bash
    git submodule update --init --recursive
    ```
 
-3. **Android Studio** または **Android SDK** (API 34)
+3. **Android Studio** or **Android SDK** (API 34)
 
-4. **16KB ページサイズ対応**: Android 15+ および 16KB ページサイズデバイス向けに、ネイティブライブラリは 16KB ELF アライメントでビルドされます。サブモジュールのプリビルド済み `jniLibs` を使用する場合、16KB 対応版を再ビルドするには `yara-x/build-android.sh` を実行してください。
+4. **16KB page size support**: Native libraries are built with 16KB ELF alignment for Android 15+ and 16KB page size devices. When using the submodule's prebuilt `jniLibs`, run `yara-x/build-android.sh` to rebuild them with 16KB support.
 
-## ビルドと実行
+## Build and Run
 
-1. このディレクトリを Android Studio で開く
-2. デバイスまたはエミュレータを接続
-3. Run ボタンでビルド・インストール・起動
+1. Open this directory in Android Studio
+2. Connect a device or emulator
+3. Click Run to build, install, and launch
 
-またはコマンドラインから:
+Or from the command line:
 
 ```bash
 ./gradlew assembleDebug
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## アプリの使い方
+## How to Use the App
 
-1. **YARA Rules**: 上部のテキストエリアに YARA ルールを入力
-2. **Text to Scan**: スキャン対象のテキストを入力
-3. **Scan** ボタンでスキャン実行
-4. **Matching Rules**: マッチしたルール名が一覧表示される
+1. **YARA Rules**: Enter YARA rules in the text area at the top
+2. **Text to Scan**: Enter the text to scan
+3. Click **Scan** to run the scan
+4. **Matching Rules**: Matched rule names are listed
 
-## サンプルルール
+## Sample Rules
 
-デフォルトで以下のルールが入力されています:
+The following rules are preloaded by default:
 
 ```yara
 rule example_string {
@@ -54,11 +54,11 @@ rule example_string {
 }
 ```
 
-「Hello World」などと入力して Scan を押すと、`example_string` にマッチします。
+Enter "Hello World" and click Scan to match `example_string`.
 
-## プロジェクト構成
+## Project Structure
 
-- `app/src/main/cpp/` - JNI ブリッジ（yara-x C API のラッパー）
-- `app/src/main/java/.../YaraX.kt` - Kotlin ラッパークラス
-- `app/src/main/java/.../MainActivity.kt` - メイン UI
-- `yara-x/` - Git サブモジュール（FoxRefire/yara-x、プリビルド `jniLibs` 含む）
+- `app/src/main/cpp/` - JNI bridge (wrapper for yara-x C API)
+- `app/src/main/java/.../YaraX.kt` - Kotlin wrapper class
+- `app/src/main/java/.../MainActivity.kt` - Main UI
+- `yara-x/` - Git submodule (FoxRefire/yara-x with prebuilt `jniLibs`)
